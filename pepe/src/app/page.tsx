@@ -1,10 +1,28 @@
+"use client";
+
 import WithSubnavigation from "./components/Header/Header";
+import PieChart from "./components/PieChart/PieChart";
 import Providers from "./components/Providers";
 import Smoke from "./components/Smoke/Smoke";
 import styles from "./page.module.css";
-import { Image, Flex, Box, Button } from "@chakra-ui/react";
+import {
+  Image,
+  Flex,
+  Box,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 export default function Home() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Providers>
       <Box
@@ -19,7 +37,7 @@ export default function Home() {
       >
         <main className={styles.main}>
           <Box zIndex="25" position="relative">
-            <WithSubnavigation />
+            <WithSubnavigation onOpen={onOpen} />
           </Box>
           <Flex
             h="100vh"
@@ -32,20 +50,20 @@ export default function Home() {
             flexDirection="column"
           >
             <Flex
-              justifyContent={{base: "center", md: "center"}}
-              flexDirection={{base: "row", md: "column"}}
+              justifyContent={{ base: "center", md: "center" }}
+              flexDirection={{ base: "row", md: "column" }}
               alignItems="flex-end"
               zIndex="50"
               gap="25px"
               height="100vh"
               width="100%"
-              mr={{base: "0", md: "50px"}}
+              mr={{ base: "0", md: "50px" }}
               boxSizing="border-box"
               mb="250px"
             >
               <Flex
-              justifyContent="center"
-              alignItems="center"
+                justifyContent="center"
+                alignItems="center"
                 w="80px"
                 h="80px"
                 className={`${styles.box} ${styles.shadow}`}
@@ -56,7 +74,7 @@ export default function Home() {
                 }}
               >
                 <Button
-                p="0"
+                  p="0"
                   bg="transparent"
                   _hover={{
                     backgroundColor: "transparent",
@@ -66,10 +84,11 @@ export default function Home() {
                 </Button>
               </Flex>
               <Flex
-              justifyContent="center"
-              alignItems="center"
+                justifyContent="center"
+                alignItems="center"
                 w="auto"
                 h="80px"
+                zIndex="1000"
                 className={`${styles.box} ${styles.shadow}`}
                 _hover={{
                   transition: "ease 1s",
@@ -78,8 +97,8 @@ export default function Home() {
                 }}
               >
                 <Button
-                m="0"
-                p="0"
+                  m="0"
+                  p="0"
                   bg="transparent"
                   _hover={{
                     backgroundColor: "transparent",
@@ -122,6 +141,26 @@ export default function Home() {
               />
             </Flex>
           </Flex>
+          <Modal isOpen={isOpen} onClose={onClose} size="md">
+            <ModalOverlay
+              zIndex={5}
+              bg="rgba(0, 0, 0, 0.75)"
+              overflowX="hidden"
+            />
+            <ModalContent
+              zIndex={10}
+              style={{ pointerEvents: "auto" }}
+              boxShadow={`0px 0px 8px 0px #ffffff`}
+              bg={useColorModeValue("#0F242E", "gray.900")}
+              color="#fff"
+              h="auto"
+              minWidth={{base: "400px", md: "700px"}}
+            >
+              <ModalHeader>Tokenomics</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody><PieChart /></ModalBody>
+            </ModalContent>
+          </Modal>
         </main>
       </Box>
     </Providers>

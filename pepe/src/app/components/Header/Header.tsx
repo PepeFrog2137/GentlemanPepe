@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/icons";
 import "./Header.css";
 
-export default function WithSubnavigation() {
+export default function WithSubnavigation({ onOpen }: { onOpen: () => void }) {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -53,18 +53,34 @@ export default function WithSubnavigation() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }} alignItems="center">
-            <Box h="50px" minW="240px">
-          <Image alt="gentleman" src="/text.png" h="50px" minW="240px" />
+        <Flex
+          flex={{ base: 1 }}
+          justify={{ base: "center", md: "start" }}
+          alignItems="center"
+        >
+          <Box h="50px" minW="240px">
+            <Image alt="gentleman" src="/text.png" h="50px" minW="240px" />
           </Box>
-          <Flex display={{ base: "none", md: "flex" }} ml={10} alignItems="center">
-            <Button bg="transparent" _hover={{backgroundColor: "transparent", color: "gray.200"}} p="0" color="white">Tokenomics</Button>
+          <Flex
+            display={{ base: "none", md: "flex" }}
+            ml={10}
+            alignItems="center"
+          >
+            <Button
+              bg="transparent"
+              _hover={{ backgroundColor: "transparent", color: "gray.200" }}
+              p="0"
+              color="white"
+              onClick={() => onOpen()}
+            >
+              Tokenomics
+            </Button>
           </Flex>
         </Flex>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav onOpen={onOpen} />
       </Collapse>
     </Box>
   );
@@ -124,7 +140,7 @@ const DesktopNav = () => {
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
     <Box
-    zIndex="60"
+      zIndex="60"
       as="a"
       href={href}
       role={"group"}
@@ -160,16 +176,22 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ onOpen }: { onOpen: () => void }) => {
   return (
     <Stack
       bg={useColorModeValue("gray.200", "gray.800")}
       p={4}
       display={{ md: "none" }}
     >
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
+      <Button
+        bg="transparent"
+        _hover={{ backgroundColor: "transparent", color: "gray.200" }}
+        p="0"
+        color="gray.700"
+        onClick={() => onOpen()}
+      >
+        Tokenomics
+      </Button>
     </Stack>
   );
 };
