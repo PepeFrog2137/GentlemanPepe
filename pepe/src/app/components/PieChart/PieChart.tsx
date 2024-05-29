@@ -9,39 +9,22 @@ interface dataProps {
 
 const dataMock = [
   {
-    id: "java",
-    label: "java",
-    value: 45,
+    id: "Dev",
+    label: "Dev",
+    value: 5,
     color: "hsl(106, 70%, 50%)",
   },
   {
-    id: "php",
-    label: "php",
-    value: 256,
+    id: "Comunity",
+    label: "Community",
+    value: 95,
     color: "hsl(108, 70%, 50%)",
   },
-  {
-    id: "rust",
-    label: "rust",
-    value: 559,
-    color: "hsl(10, 70%, 50%)",
-  },
-  {
-    id: "haskell",
-    label: "haskell",
-    value: 322,
-    color: "hsl(113, 70%, 50%)",
-  },
-  {
-    id: "make",
-    label: "make",
-    value: 350,
-    color: "hsl(293, 70%, 50%)",
-  },
+
 ];
 
 const PieChart = () => {
-  const colorScheme = ["#3498db", "#5DADE2", "#7FB3D5", "#A9CCE3", "#76D7C4"];
+  const colorScheme = ["#3498db", "#76D7C4", "#7FB3D5", "#A9CCE3", "#76D7C4"];
   const sizeH = useBreakpointValue({base: 350, md: 500}) || 350;
   const sizeW = useBreakpointValue({base: 400, md: 700}) || 400;
 
@@ -51,7 +34,7 @@ const PieChart = () => {
       margin={{
         top: 40,
         right: 80,
-        bottom: 20,
+        bottom: 40,
         left: 50,
       }}
       width={sizeW}
