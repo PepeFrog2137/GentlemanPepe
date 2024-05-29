@@ -24,7 +24,13 @@ import {
 } from "@chakra-ui/icons";
 import "./Header.css";
 
-export default function WithSubnavigation({ onOpen }: { onOpen: () => void }) {
+export default function WithSubnavigation({
+  onOpen,
+  onOpen2,
+}: {
+  onOpen: () => void;
+  onOpen2: () => void;
+}) {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -45,6 +51,7 @@ export default function WithSubnavigation({ onOpen }: { onOpen: () => void }) {
           <IconButton
             color="white"
             onClick={onToggle}
+            _hover={{ backgroundColor: "transparent" }}
             icon={
               isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
             }
@@ -63,6 +70,7 @@ export default function WithSubnavigation({ onOpen }: { onOpen: () => void }) {
           <Flex
             display={{ base: "none", md: "flex" }}
             ml={10}
+            gap="25px"
             alignItems="center"
           >
             <Button
@@ -74,12 +82,21 @@ export default function WithSubnavigation({ onOpen }: { onOpen: () => void }) {
             >
               Tokenomics
             </Button>
+            <Button
+              bg="transparent"
+              _hover={{ backgroundColor: "transparent", color: "gray.200" }}
+              p="0"
+              color="white"
+              onClick={() => onOpen2()}
+            >
+              Roadmap
+            </Button>
           </Flex>
         </Flex>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav onOpen={onOpen} />
+        <MobileNav onOpen={onOpen} onOpen2={onOpen2} />
       </Collapse>
     </Box>
   );
@@ -175,23 +192,46 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   );
 };
 
-const MobileNav = ({ onOpen }: { onOpen: () => void }) => {
+const MobileNav = ({
+  onOpen,
+  onOpen2,
+}: {
+  onOpen: () => void;
+  onOpen2: () => void;
+}) => {
   return (
-    <Stack
-      bg={useColorModeValue("gray.200", "gray.800")}
-      p={4}
-      display={{ md: "none" }}
-    >
-      <Button
-        bg="transparent"
-        _hover={{ backgroundColor: "transparent", color: "gray.200" }}
-        p="0"
-        color="gray.700"
-        onClick={() => onOpen()}
+    <>
+      <Stack
+        bg={useColorModeValue("gray.200", "gray.800")}
+        p={4}
+        display={{ md: "none" }}
       >
-        Tokenomics
-      </Button>
-    </Stack>
+        <Button
+          bg="transparent"
+          _hover={{ backgroundColor: "transparent", color: "gray.200" }}
+          p="0"
+          color="gray.700"
+          onClick={() => onOpen()}
+        >
+          Tokenomics
+        </Button>
+      </Stack>
+      <Stack
+        bg={useColorModeValue("gray.200", "gray.800")}
+        p={4}
+        display={{ md: "none" }}
+      >
+        <Button
+          bg="transparent"
+          _hover={{ backgroundColor: "transparent", color: "gray.200" }}
+          p="0"
+          color="gray.700"
+          onClick={() => onOpen2()}
+        >
+          Roadmap
+        </Button>
+      </Stack>
+    </>
   );
 };
 

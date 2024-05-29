@@ -25,6 +25,7 @@ import {
   useToast,
   ToastId,
   useBreakpointValue,
+  Link,
 } from "@chakra-ui/react";
 import React from "react";
 import { motion } from "framer-motion";
@@ -54,6 +55,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const controls = useDisclosure();
   const [isFirst, setIsFirst] = useState();
   const toast = useToast();
   const pumpFun = useWebSocket("wss://pumpportal.fun/api/data");
@@ -163,7 +165,7 @@ export default function Home() {
       >
         <main className={styles.main}>
           <Box zIndex="25" position="relative">
-            <WithSubnavigation onOpen={onOpen} />
+            <WithSubnavigation onOpen={onOpen} onOpen2={controls.onOpen} />
           </Box>
           <Box position="absolute" w="150px" h="60px"></Box>
           <Flex
@@ -190,6 +192,7 @@ export default function Home() {
               boxSizing="border-box"
               mb="250px"
             >
+              <Link href="https://x.com/PepeGentleman69" target="_blank">
               <Flex
                 justifyContent="center"
                 alignItems="center"
@@ -212,6 +215,8 @@ export default function Home() {
                   <Image src="/X.png" w="80px" h="80px" alt="x" />
                 </Button>
               </Flex>
+              </Link>
+              <Link href="https://t.me/+0maOFz2vMvw2Nzc0" target="_blank">
               <Flex
                 justifyContent="center"
                 alignItems="center"
@@ -236,6 +241,7 @@ export default function Home() {
                   <Image src="/telegram.png" w="80px" h="80px" alt="telegram" />
                 </Button>
               </Flex>
+              </Link>
             </Flex>
             <Flex
               h="100vh"
@@ -310,7 +316,7 @@ export default function Home() {
               zIndex={10}
               style={{ pointerEvents: "auto" }}
               boxShadow={`0px 0px 8px 0px #ffffff`}
-              bg={useColorModeValue("#0F242E", "gray.900")}
+              bg={useColorModeValue("linear-gradient(to top right, #045ab1, #011631)", "gray.900")}
               color="#fff"
               h="auto"
               minWidth={{ base: "400px", md: "700px" }}
@@ -319,6 +325,27 @@ export default function Home() {
               <ModalCloseButton />
               <ModalBody>
                 <PieChart />
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+          <Modal isOpen={controls.isOpen} onClose={controls.onClose} size="md">
+            <ModalOverlay
+              zIndex={5}
+              bg="rgba(0, 0, 0, 0.75)"
+              overflowX="hidden"
+            />
+            <ModalContent
+              p="0"
+              zIndex={10}
+              style={{ pointerEvents: "auto" }}
+              boxShadow={`0px 0px 8px 0px #ffffff`}
+              bg={useColorModeValue("linear-gradient(to top right, #045ab1, #011631)", "gray.900")}
+              color="#fff"
+              h="auto"
+            >
+              <ModalCloseButton />
+              <ModalBody>
+                <Image alt="roadmap" src="/roadmap.png" />
               </ModalBody>
             </ModalContent>
           </Modal>

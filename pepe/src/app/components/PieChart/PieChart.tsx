@@ -24,7 +24,7 @@ const dataMock = [
 ];
 
 const PieChart = () => {
-  const colorScheme = ["#3498db", "#76D7C4", "#7FB3D5", "#A9CCE3", "#76D7C4"];
+  const colorScheme = ["#3498db", "#7FB3D5", "#7FB3D5", "#A9CCE3", "#76D7C4"];
   const sizeH = useBreakpointValue({base: 350, md: 500}) || 350;
   const sizeW = useBreakpointValue({base: 400, md: 700}) || 400;
 
