@@ -27,6 +27,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import React from "react";
+import { motion } from "framer-motion";
 
 // {
 //   "signature": "67TRgPZ3VNy2A7m9vcEmkJJUgSkKJTUdJjrqcHvL8QkLhBfC7gdU58dVkCdWjMxNSGHM9ZNtpckjuyAj6zE12Zip",
@@ -59,7 +60,6 @@ export default function Home() {
   const pumpFunData = pumpFun?.data;
   const { data } = usePriceData();
   const solDataPrice = data?.SOL?.price;
-  console.log(data, pumpFunData);
   const allTokens = 1000000000;
   const calculateMCInDollars = pumpFunData?.marketCapSol * solDataPrice;
   const OneTokenPrizeInDollars = calculateMCInDollars / allTokens;
@@ -67,15 +67,8 @@ export default function Home() {
     pumpFunData?.tokenAmount * OneTokenPrizeInDollars;
   const transcationAmmountInSol = transactionAmmountInDollars / solDataPrice;
   const [seconds, setSeconds] = useState(0);
-  const toastIdRef = React.useRef<ToastId>('');
-  const isMobile =  false;
-
-  console.log(
-    calculateMCInDollars,
-    transactionAmmountInDollars,
-    transcationAmmountInSol,
-    "gg"
-  );
+  const toastIdRef = React.useRef<ToastId>("");
+  const isMobile = false;
   const handleTimerTick = () => {
     setSeconds((prevSeconds) => prevSeconds + 1);
   };
@@ -108,16 +101,53 @@ export default function Home() {
     if (seconds > 0) {
       toast.update(toastIdRef.current, {
         position: "bottom",
-        description: `${transcationAmmountInSol.toFixed(
-          5
-        )} SOL - ${seconds}s`,
+        description: `${transcationAmmountInSol.toFixed(5)} SOL - ${seconds}s`,
         status: pumpFunData?.txType === "buy" ? "success" : "error",
         duration: 500000,
         isClosable: true,
         title: pumpFunData?.txType === "buy" ? "BUY" : "SELL",
       });
     }
-  },[seconds, toast]);
+  }, [seconds, toast]);
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const animationDuration = 2;
+  const visibilityTime = 5;
+  useEffect(() => {
+    const timer2 = setTimeout(() => {
+      setIsVisible(true);
+    }, animationDuration * 1000);
+
+    return () => clearTimeout(timer2);
+  }, []);
+
+  const texts = [
+    "Hello...<br />I guess..",
+    "I am alone...<br />Gentleman",
+    "I invite you<br />here...",
+    "To enjoy peace<br /> with me...",
+  ];
+
+  useEffect(() => {
+    const updateIndex = () => {
+      setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+    };
+    let nextTextTimer: NodeJS.Timeout;
+    let timer3: NodeJS.Timeout;
+    console.log(isVisible);
+    if (isVisible) {
+      console.log("huj");
+      nextTextTimer = setInterval(updateIndex, visibilityTime * 1000);
+      timer3 = setTimeout(() => {
+        setIsVisible(false);
+      }, texts.length * visibilityTime * 1000);
+    }
+    return () => {
+      clearInterval(nextTextTimer);
+      clearTimeout(timer3);
+    };
+  }, [isVisible]);
 
   return (
     <Providers>
@@ -149,10 +179,12 @@ export default function Home() {
             <Flex
               justifyContent={{ base: "center", md: "center" }}
               flexDirection={{ base: "row", md: "column" }}
+              position="absolute"
               alignItems="flex-end"
-              zIndex="50"
+              zIndex="5"
               gap="25px"
               height="100vh"
+              bottom="-150px"
               width="100%"
               mr={{ base: "0", md: "50px" }}
               boxSizing="border-box"
@@ -224,6 +256,36 @@ export default function Home() {
                   h={{ lg: "800px", md: "500px", base: "300px" }}
                   zIndex="5"
                 />
+                <Box position="absolute" zIndex="1000" w="500px" h="500px">
+                  {isVisible && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: animationDuration }}
+                      style={{
+                        zIndex: 500,
+                      }}
+                    >
+                      <Box
+                        className={styles.bubble}
+                        width={{ lg: "300px", md: "300px", base: "200px" }}
+                        height={{ lg: "150px", md: "150px", base: "120px" }}
+                        left={{ lg: "110%", md: "65%", base: "30%" }}
+                        top={{ lg: "0", md: "-80px", base: "-15%" }}
+                        fontSize={{ lg: "30px", md: "28px", base: "23px" }}
+                      >
+                        <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.5 }}
+                          dangerouslySetInnerHTML={{
+                            __html: texts[currentTextIndex],
+                          }}
+                        />
+                      </Box>
+                    </motion.div>
+                  )}
+                </Box>
                 <Smoke />
               </Flex>
               <Image
