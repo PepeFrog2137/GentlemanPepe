@@ -16,7 +16,7 @@ const useWebSocketSWR = (url: string) => {
       if (!isSubscribed) {
         const payload: WebSocketPayload = {
           method: 'subscribeTokenTrade',
-          keys: ['5rJNNbr2Ai7WbQcqDwjLMfpdQ85yniUWm1Y6ADunmRx8']
+          keys: ['BrmqvSmhwuHc2NekfPrk7QGYuLLYdAoqsrgEwpbgAySb']
         };
         ws.send(JSON.stringify(payload));
         isSubscribed = true;
